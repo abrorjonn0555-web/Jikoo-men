@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090909">
+<title>UP CASINO</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#090909;color:#f7f3e8;font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif}
+header{padding:24px 20px;border-bottom:1px solid #403116;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:27px;font-weight:900;letter-spacing:2px;color:#f3c65e}
+.logo span{color:#fff}
+.balance{color:#f3c65e;border:1px solid #6d5121;border-radius:20px;padding:9px 12px;font-size:14px}
+main{padding:22px 16px;max-width:520px;margin:auto}
+.hero{text-align:center;padding:28px 12px 24px;background:radial-gradient(ellipse at top,#35250c,#111 65%,#090909);border:1px solid #5b431b;border-radius:20px}
+.tag{color:#dcb75c;font-size:11px;letter-spacing:3px}
+h1{font-size:38px;margin:12px 0;color:#f4ca67}
+p{color:#aaa;line-height:1.5}
+.button{display:block;width:100%;border:0;border-radius:12px;background:linear-gradient(100deg,#b8862b,#ffdf83,#c08b2e);color:#171007;font-weight:900;font-size:16px;padding:16px;margin-top:16px}
+.section-title{font-size:18px;margin:26px 0 12px}
+.games{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.game{background:#141414;border:1px solid #41321a;border-radius:15px;padding:17px 12px;text-align:center}
+.emoji{font-size:36px}
+.game h3{margin:10px 0 4px;font-size:16px}
+.game p{font-size:12px;margin:4px 0}
+.slot{margin-top:16px;background:#15120d;border:1px solid #8b6727;border-radius:18px;padding:18px;text-align:center}
+.reels{font-size:48px;letter-spacing:8px;padding:14px 0}
+.small{font-size:11px;color:#888;text-align:center;margin:22px 4px;line-height:1.6}
+nav{display:flex;justify-content:space-around;border-top:1px solid #302719;padding:17px 4px;color:#dcb75c;font-size:13px}
+button{cursor:pointer}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">UP <span>CASINO</span></div>
+  <div class="balance">★ <span id="balance">1000</span> демо</div>
+</header>
+<main>
+  <section class="hero">
+    <div class="tag">WELCOME TO THE GOLD CLUB</div>
+    <h1>PLAY YOUR LUCK</h1>
+    <p>Добро пожаловать в UP CASINO</p>
+    <button class="button" onclick="document.getElementById('slot').scrollIntoView({behavior:'smooth'})">ИГРАТЬ СЕЙЧАС</button>
+  </section>
+
+  <h2 class="section-title">🎰 Популярные игры</h2>
+  <section class="games">
+    <div class="game"><div class="emoji">🎰</div><h3>Lucky Slots</h3><p>Демо-режим</p></div>
+    <div class="game"><div class="emoji">💎</div><h3>Gold Rush</h3><p>Скоро</p></div>
+    <div class="game"><div class="emoji">🃏</div><h3>Blackjack</h3><p>Скоро</p></div>
+    <div class="game"><div class="emoji">🏆</div><h3>Турниры</h3><p>Скоро</p></div>
+  </section>
+
+  <section class="slot" id="slot">
+    <div class="tag">LUCKY SLOTS · DEMO</div>
+    <div class="reels" id="reels">🍒 ⭐ 🍋</div>
+    <p id="message">Нажми кнопку для бесплатного демо-раунда</p>
+    <button class="button" id="spin">КРУТИТЬ БЕСПЛАТНО</button>
+  </section>
+
+  <p class="small">Демонстрационная версия. Баллы виртуальные, не продаются, не передаются и не обмениваются на деньги или призы. Результаты игры не имеют денежной стоимости.</p>
+</main>
+<nav><span>⌂ Главная</span><span>🎮 Игры</span><span>👤 Профиль</span></nav>
+<script>
+const tg=window.Telegram?.WebApp;
+tg?.ready();
+tg?.expand();
+
+let balance=1000;
+const symbols=["🍒","⭐","🍋","💎","🔔","7️⃣"];
+const reels=document.getElementById("reels");
+const message=document.getElementById("message");
+const balanceEl=document.getElementById("balance");
+document.getElementById("spin").addEventListener("click",()=>{
+  if(balance<10){message.textContent="Демо-баллы закончились. Перезагрузи страницу для нового демо-сеанса.";return;}
+  balance-=10;
+  const result=Array.from({length:3},()=>symbols[Math.floor(Math.random()*symbols.length)]);
+  const win=result.every(x=>x===result[0]);
+  if(win) balance+=50;
+  reels.textContent=result.join(" ");
+  balanceEl.textContent=balance;
+  message.textContent=win?"🎉 Демо-комбинация! +50 баллов":"Попробуй ещё раз — это только демо.";
+});
+</script>
+</body>
+</html>
